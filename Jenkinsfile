@@ -1,16 +1,21 @@
-node {
-    stage ('Setup') {
-        echo 'setup start'
-        checkout scm
-        echo 'setup complete'
-    }
-    stage('Run Tests') {
-        echo 'starting tests'
-        def rubyContainer = docker.image('dtr-test.nwie.net/ets/ruby24')
-        rubyContainer.inside('-u root'){
-            sh 'bundle install'
-            sh "rake tests:$rake_task[$build_env]"
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
         }
-        echo "Tests run"
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
     }
 }
